@@ -18,3 +18,10 @@ def nippoCreateView(request):
         content = request.POST["content"]
 
     return render(request, template_name)
+
+def nippoDetailView(request, pk):
+    template_name = "nippo/nippo-detail.html"
+    ctx = {}
+    q = NippoModel.objects.get(pk=pk)
+    ctx["object"] = q
+    return render(request, template_name, ctx)
