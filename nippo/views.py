@@ -16,6 +16,8 @@ def nippoCreateView(request):
     if request.POST:
         title = request.POST["title"]
         content = request.POST["content"]
+        obj = NippoModel(title=title, content=content)
+        obj.save()
 
     return render(request, template_name)
 
