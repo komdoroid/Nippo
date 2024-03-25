@@ -50,3 +50,11 @@ def nippoUpdateFormView(request, pk):
         obj.content = content
         obj.save()
     return render(request, template_name, ctx)
+
+def nippoDeleteView(request, pk):
+    template_name = "nippo/nippo-delete.html"
+    obj = get_object_or_404(NippoModel, pk=pk)
+    ctx = {"object": obj}
+    if request.POST:
+        obj.delete()
+    return render(request, template_name, ctx)
