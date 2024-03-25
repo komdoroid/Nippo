@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import NippoModel
-from .forms import NippoFormsClass
+from .forms import NippoFormClass
 
 # Create your views here.
 def nippoListView(request):
@@ -13,7 +13,7 @@ def nippoListView(request):
 
 def nippoCreateView(request):
     template_name = "nippo/nippo-form.html"
-    forms = NippoFormsClass(request.POST or None)
+    form = NippoFormClass(request.POST or None)
     ctx = {"form": form}
     if form.is_valid():
         title = form.cleaned_data["title"]
@@ -40,12 +40,13 @@ def nippoUpdateFormView(request, pk):
     template_name = "nippo/nippo-form.html"
     obj = NippoModel.objects.get(pk=pk)
     initial_values = {"title": obj.title, "content":obj.content}
-    form = NippoFormsClass(request.POST or initial_values)
+    form = NippoFormClass(request.POST or initial_values)
     ctx = {"form": form}
+    ctx["object"] = obj
     if form.is_valid():
         title = form.cleaned_data["title"]
         content = form.cleaned_data["content"]
         obj.title = title
         obj.content = content
         obj.save()
-    return render(request, template_name,)
+    return render(request, template_name, ctx)
